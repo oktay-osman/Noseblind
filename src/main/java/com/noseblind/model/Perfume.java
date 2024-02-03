@@ -3,6 +3,7 @@ package com.noseblind.model;
 import java.math.BigDecimal;
 
 public class Perfume {
+    private int id;
     private String name;
     private BigDecimal price;
     private String description;
