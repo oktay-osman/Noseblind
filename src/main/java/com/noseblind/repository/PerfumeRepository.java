@@ -1,6 +1,7 @@
 package com.noseblind.repository;
 
 import com.noseblind.model.Perfume;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -17,10 +18,19 @@ public class PerfumeRepository {
     }
 
     public void addPerfume(Perfume perfume) {
+        String sql = "INSERT INTO perfume (name, price, description)" +
+                "VALUES(?, ?, ?)";
+        jdbcTemplate.update(sql,perfume.getName(),perfume.getPrice(),perfume.getDescription());
     }
 
     public Perfume getPerfumeByName(String name) {
-        return new Perfume("",null,"Text");
+        String sql = "SELECT id FROM perfume WHERE name LIKE '%?%'";
+        return (Perfume) jdbcTemplate.queryForObject(sql, new Object[] {name}, new BeanPropertyRowMapper(Perfume.class));
+    }
+
+    public Perfume findPerfumeById(int id) {
+        String sql = "SELECT name FROM perfume WHERE id = ?";
+        return (Perfume) jdbcTemplate.queryForObject(sql, new Object[] {id}, new BeanPropertyRowMapper(Perfume.class));
     }
 
     public List<Perfume> getAllPerfumes() {
@@ -28,6 +38,8 @@ public class PerfumeRepository {
         return perfumes;
     }
 
-    public void deletePerfume() {
+    public void deletePerfume(Perfume perfume) {
+        String sql = "DELETE * FROM perfume WHERE id = ?";
+        jdbcTemplate.update(sql,perfume.getId());
     }
 }
