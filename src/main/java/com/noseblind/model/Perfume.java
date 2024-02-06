@@ -1,8 +1,11 @@
 package com.noseblind.model;
 
+import org.springframework.data.annotation.Id;
+
 import java.math.BigDecimal;
 
 public class Perfume {
+    @Id
     private int id;
     private String name;
     private BigDecimal price;
@@ -12,6 +15,10 @@ public class Perfume {
         this.name = name;
         this.price = price;
         this.description = description;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public String getName () {
